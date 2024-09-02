@@ -35,4 +35,10 @@ public static class BuilderExtension
         builder.Services.AddTransient<IStudentHandler, StudentHandler>();
         builder.Services.AddTransient<IStudentRepository, StudentRepository>();
     }
+
+    public static void AddCrossOrigin(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddCors();
+    }
 }
