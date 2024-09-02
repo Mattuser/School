@@ -16,7 +16,7 @@ public class StudentRepository(AppDataContext context) : IStudentRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task UpdatAsync(Student student)
+    public async Task UpdateAsync(Student student)
     {
         context.Students.Update(student);
         await context.SaveChangesAsync();

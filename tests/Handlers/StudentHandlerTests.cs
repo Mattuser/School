@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using Azure.Core;
+using Moq;
 using School.Api.Abstractions;
+using School.Api.Dtos.Requests;
 using School.Api.Dtos.Requests.Student;
 using School.Api.Entities;
 using School.Api.Handlers;
@@ -16,22 +18,29 @@ public class StudentHandlerTests
         _studentHandler = new StudentHandler(_studentRepositoryMock.Object);
     }
 
-    [Fact]
-    public async Task CreateAsync_Should_ReturnAlunoCadastrado_When_StudentAlreadyExists()
+    [Theory]
+    [ClassData(typeof(TestStudentGenerator))]
+    public async Task CreateAsync_Should_ReturnAlunoCadastrado_When_StudentAlreadyExists(
+        List<CreateStudentRequest> requests)
     {
         // Arrange
-        var existingStudent = new Student { Name = "student1", User = "student_1" };
-        _studentRepositoryMock.Setup(repo => repo.AnyAsync("student_1"))
-            .ReturnsAsync(existingStudent);
 
-        var request = new CreateStudentRequest { Name = "student1", User = "student_1" };
+        var existingStudent = new Student { Name = "student_1", User = "student_1" };
 
-        //Act 
-        var result = await _studentHandler.CreateAsync(request);
+        foreach(var request in requests)
+        {
+            _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.User))
+                .ReturnsAsync(existingStudent);
+        }
 
+        //Act & Assert 
 
-        //Assert
-        Assert.Equal("Aluno já cadastrado!", result.Message);
+        foreach (var request in requests)
+        {
+            var result = await _studentHandler.CreateAsync(request);
+            Assert.Equal("Aluno já cadastrado!", result.Message);
+        }
+        
     }
 
     [Theory]
@@ -40,8 +49,7 @@ public class StudentHandlerTests
         List<CreateStudentRequest> requests)
     {
         //Arrange
-
-
+        
         foreach (var request in requests)
         {
             _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.User))
@@ -57,6 +65,21 @@ public class StudentHandlerTests
         }
 
 
+    }
+
+    [Fact]
+    public async Task UpdateAsync_Should_ReturnAlunoNaoCadastrado_When_StudentNotExists()
+    {
+        //Arrange
+        
+        var student = new UpdateStudentRequest{ User = "student_user", Name = "student" };
+
+        //Act
+        
+        var result = await _studentHandler.UpdateAsync(student);
+
+        //Assert
+        Assert.Equal("Aluno não cadastrado!", result.Message);
     }
 
 }

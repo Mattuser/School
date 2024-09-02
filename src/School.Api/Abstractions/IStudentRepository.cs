@@ -7,6 +7,6 @@ namespace School.Api.Abstractions;
 public interface IStudentRepository
 {
     public Task CreateAsync(Student student);
-    public Task UpdatAsync(Student student);
+    public Task UpdateAsync(Student student);
     public Task<Student?> AnyAsync(string user);
 }

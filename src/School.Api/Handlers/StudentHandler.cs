@@ -45,7 +45,7 @@ public class StudentHandler(IStudentRepository repository) : IStudentHandler
             student.Name = request.Name;
             student.Password = request.Password;
 
-            await repository.UpdatAsync(student);
+            await repository.UpdateAsync(student);
 
             return new Response<Student?>(student, message: "Aluno atualizado com sucesso!");
         }
