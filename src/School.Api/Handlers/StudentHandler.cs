@@ -1,20 +1,17 @@
 ﻿using School.Api.Abstractions;
-using School.Api.Data;
 using School.Api.Dtos.Requests.Student;
 using School.Api.Dtos.Responses;
 using School.Api.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace School.Api.Handlers;
 
-public class StudentHandler(AppDataContext context) : IStudentHandler
+public class StudentHandler(IStudentRepository repository) : IStudentHandler
 {
     public async Task<Response<Student?>> CreateAsync(CreateStudentRequest request)
     {
- 
         try
         {
-            var student = await context.Students.FirstOrDefaultAsync(x => x.User == request.User);
+            var student = await repository.AnyAsync(request.User);
             if (student is not null)
                 return new Response<Student?>(null, 400, "Aluno já cadastrado!");
 
@@ -25,8 +22,7 @@ public class StudentHandler(AppDataContext context) : IStudentHandler
                 Password = request.Password,
             };
 
-            await context.Students.AddAsync(student);
-            await context.SaveChangesAsync();
+            await repository.CreateAsync(student);
 
             return new Response<Student?>(student, 201, "Cadastro realizado com sucesso!");
         }
@@ -42,15 +38,14 @@ public class StudentHandler(AppDataContext context) : IStudentHandler
     {
         try
         {
-            var student = await context.Students.FirstOrDefaultAsync(x => x.User == request.User);
+            var student = await repository.AnyAsync(request.User);
             if (student is null)
                 return new Response<Student?>(null, 400, "Aluno não cadastrado!");
 
             student.Name = request.Name;
             student.Password = request.Password;
 
-            context.Students.Update(student);
-            await context.SaveChangesAsync();
+            await repository.UpdatAsync(student);
 
             return new Response<Student?>(student, message: "Aluno atualizado com sucesso!");
         }

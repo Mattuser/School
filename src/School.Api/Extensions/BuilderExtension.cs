@@ -2,6 +2,7 @@
 using School.Api.Data;
 using School.Api.Handlers;
 using Microsoft.EntityFrameworkCore;
+using School.Api.Repositories;
 
 namespace School.Api.Extensions;
 
@@ -32,5 +33,6 @@ public static class BuilderExtension
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IStudentHandler, StudentHandler>();
+        builder.Services.AddTransient<IStudentRepository, StudentRepository>();
     }
 }

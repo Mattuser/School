@@ -22,92 +22,92 @@ namespace School.Api.Data.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("School.Api.Entities.Class", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                b.Property<int>("CourseId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("turma");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(45)
+                    .HasColumnType("VARCHAR")
+                    .HasColumnName("turma");
 
-                    b.Property<int>("Year")
-                        .HasMaxLength(4)
-                        .HasColumnType("INT")
-                        .HasColumnName("ano");
+                b.Property<int>("Year")
+                    .HasMaxLength(4)
+                    .HasColumnType("INT")
+                    .HasColumnName("ano");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("turma", (string)null);
-                });
+                b.ToTable("turma", (string)null);
+            });
 
             modelBuilder.Entity("School.Api.Entities.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("nome");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnType("VARCHAR")
+                    .HasColumnName("nome");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("CHAR")
-                        .HasColumnName("senha");
+                b.Property<string>("Password")
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .HasColumnType("CHAR")
+                    .HasColumnName("senha");
 
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("VARCHAR")
-                        .HasColumnName("usuario");
+                b.Property<string>("User")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnType("VARCHAR")
+                    .HasColumnName("usuario");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("aluno", (string)null);
-                });
-
-            modelBuilder.Entity("aluno_turma", b =>
-                {
-                    b.Property<int>("aluno_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("class_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("aluno_id", "class_id");
-
-                    b.HasIndex("class_id");
-
-                    b.ToTable("aluno_turma");
-                });
+                b.ToTable("aluno", (string)null);
+            });
 
             modelBuilder.Entity("aluno_turma", b =>
-                {
-                    b.HasOne("School.Api.Entities.Student", null)
-                        .WithMany()
-                        .HasForeignKey("aluno_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.Property<int>("aluno_id")
+                    .HasColumnType("int");
 
-                    b.HasOne("School.Api.Entities.Class", null)
-                        .WithMany()
-                        .HasForeignKey("class_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.Property<int>("class_id")
+                    .HasColumnType("int");
+
+                b.HasKey("aluno_id", "class_id");
+
+                b.HasIndex("class_id");
+
+                b.ToTable("aluno_turma");
+            });
+
+            modelBuilder.Entity("aluno_turma", b =>
+            {
+                b.HasOne("School.Api.Entities.Student", null)
+                    .WithMany()
+                    .HasForeignKey("aluno_id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("School.Api.Entities.Class", null)
+                    .WithMany()
+                    .HasForeignKey("class_id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 #pragma warning restore 612, 618
         }
     }
