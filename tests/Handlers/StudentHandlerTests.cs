@@ -1,7 +1,6 @@
 ﻿using Azure.Core;
 using Moq;
 using School.Api.Abstractions;
-using School.Api.Dtos.Requests;
 using School.Api.Dtos.Requests.Student;
 using School.Api.Entities;
 using School.Api.Handlers;
@@ -49,7 +48,7 @@ public class StudentHandlerTests
         List<CreateStudentRequest> requests)
     {
         //Arrange
-        
+
         foreach (var request in requests)
         {
             _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.User))
@@ -71,11 +70,9 @@ public class StudentHandlerTests
     public async Task UpdateAsync_Should_ReturnAlunoNaoCadastrado_When_StudentNotExists()
     {
         //Arrange
-        
         var student = new UpdateStudentRequest{ User = "student_user", Name = "student" };
 
         //Act
-        
         var result = await _studentHandler.UpdateAsync(student);
 
         //Assert
