@@ -35,7 +35,7 @@ public class StudentMap : IEntityTypeConfiguration<Student>
             .UsingEntity<Dictionary<string, object>>(
                 "aluno_turma",
                 classe => classe
-                    .HasOne<Class>()
+                    .HasOne<Classroom>()
                     .WithMany()
                     .HasForeignKey("class_id")
                     .OnDelete(DeleteBehavior.Cascade),

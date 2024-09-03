@@ -6,5 +6,5 @@ public class Student
     public string Name { get; set; } = string.Empty;
     public string User { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public ICollection<Class> Classes { get; set; } = new List<Class>();
+    public ICollection<Classroom> Classes { get; set; } = new List<Classroom>();
 }

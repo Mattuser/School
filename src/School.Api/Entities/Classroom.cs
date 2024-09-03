@@ -1,6 +1,6 @@
 ﻿namespace School.Api.Entities;
 
-public class Class
+public class Classroom
 {
     public int Id { get; set; }
     public int CourseId { get; set; }

@@ -1,6 +1,4 @@
-﻿using School.Api.Dtos.Requests.Student;
-using School.Api.Dtos.Responses;
-using School.Api.Entities;
+﻿using School.Api.Entities;
 
 namespace School.Api.Abstractions;
 

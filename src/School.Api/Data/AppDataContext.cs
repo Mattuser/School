@@ -9,10 +9,11 @@ public class AppDataContext(DbContextOptions<AppDataContext> options) : DbContex
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new ClassMap());
+        modelBuilder.ApplyConfiguration(new ClassroomMap());
         modelBuilder.ApplyConfiguration(new StudentMap());
     }
 
-    public DbSet<Class> Classes => Set<Class>();
+    public DbSet<Classroom> Classes => Set<Classroom>();
     public DbSet<Student> Students => Set<Student>();
+
 }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace School.Api.Data.Mappings;
 
-public class ClassMap : IEntityTypeConfiguration<Class>
+public class ClassroomMap : IEntityTypeConfiguration<Classroom>
 {
-    public void Configure(EntityTypeBuilder<Class> builder)
+    public void Configure(EntityTypeBuilder<Classroom> builder)
     {
         builder.ToTable("turma");
         builder.HasKey(x => x.Id);
