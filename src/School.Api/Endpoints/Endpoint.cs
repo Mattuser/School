@@ -1,5 +1,6 @@
 ﻿using School.Api.Endpoints.Clasroom;
 using School.Api.Endpoints.Student;
+using School.Api.Endpoints.StudentClassroom;
 
 namespace School.Api.Endpoints;
 
@@ -21,6 +22,10 @@ public static class Endpoint
         endpoints.MapGroup("v1/Turmas")
             .WithTags("Turmas")
             .MapEndpoint<CreateClassroomEndpoint>();
+        
+        endpoints.MapGroup("v1/alunoturma")
+            .WithTags("AlunoTurma")
+            .MapEndpoint<StudentClassroomEndpoint>();
     }
 
     public static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

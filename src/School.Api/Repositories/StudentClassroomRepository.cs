@@ -22,11 +22,20 @@ public class StudentClassroomRepository(
         
         context.Set<Dictionary<string, object>>("aluno_turma").Add(studentClassroom);
 
+        var addedUserRole = context.Set<Dictionary<string, object>>("aluno_turma")
+                                   .FirstOrDefault(sc =>
+                                       (string)sc["aluno_id"] == user &&
+                                       (string)sc["class_id"] == classroom);
+
         await context.SaveChangesAsync();
+
+        return addedUserRole;
     }
 
     public Task<bool> AssociationExists(string user, string classroom)
     {
         throw new NotImplementedException();
     }
+
+   
 }
