@@ -7,8 +7,8 @@ namespace School.Api.Repositories;
 
 public class ClassroomRepository(AppDataContext context) : IClassroomRepository
 {
-    public async Task<Classroom?> AnyAsync(string classroom)
-        => await context.Classes.FirstOrDefaultAsync(x => x.Name == classroom);
+    public async Task<Classroom?> AnyAsync(int classroomId)
+        => await context.Classes.FirstOrDefaultAsync(x => x.Id == classroomId);
 
     public async Task CreateAsync(Classroom student)
     {

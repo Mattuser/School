@@ -11,7 +11,7 @@ public class StudentHandler(IStudentRepository repository) : IStudentHandler
     {
         try
         {
-            var student = await repository.AnyAsync(request.User);
+            var student = await repository.AnyAsync(request.Id);
             if (student is not null)
                 return new Response<Student?>(null, 400, "Aluno já cadastrado!");
 
@@ -38,7 +38,7 @@ public class StudentHandler(IStudentRepository repository) : IStudentHandler
     {
         try
         {
-            var student = await repository.AnyAsync(request.User);
+            var student = await repository.AnyAsync(request.Id);
             if (student is null)
                 return new Response<Student?>(null, 400, "Aluno não cadastrado!");
 

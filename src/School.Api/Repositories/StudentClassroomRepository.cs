@@ -1,4 +1,5 @@
-﻿using School.Api.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using School.Api.Abstractions;
 using School.Api.Data;
 using School.Api.Entities;
 
@@ -9,33 +10,43 @@ public class StudentClassroomRepository(
     IClassroomRepository classroomRepository,
     AppDataContext context) : IStudentClassroomRepository
 {
-    public async Task<Dictionary<string, object>> AssociateAsync(string user, string classroom)
+    public async Task<Dictionary<string, object>> AssociateAsync(int studentId, int classroomId)
     {
-        var student = await studentRepository.AnyAsync(user);
-        var classroomEntity = await classroomRepository.AnyAsync(classroom);
+        var student = await studentRepository.AnyAsync(studentId);
+        var classroomEntity = await classroomRepository.AnyAsync(classroomId);
         var studentClassroom = new Dictionary<string, object>
         {
             {"aluno_id", student.Id},
-            {"turma_id", classroomEntity.Id}
+            {"class_id", classroomEntity.Id}
         };
 
+       context.Set<Dictionary<string, object>>("aluno_turma").Add(studentClassroom);
         
-        context.Set<Dictionary<string, object>>("aluno_turma").Add(studentClassroom);
-
         var addedUserRole = context.Set<Dictionary<string, object>>("aluno_turma")
                                    .FirstOrDefault(sc =>
-                                       (string)sc["aluno_id"] == user &&
-                                       (string)sc["class_id"] == classroom);
+                                       (int)sc["aluno_id"] == student.Id &&
+                                       (int)sc["class_id"] == classroomEntity.Id);
 
         await context.SaveChangesAsync();
 
         return addedUserRole;
     }
 
-    public Task<bool> AssociationExists(string user, string classroom)
+    public bool AssociationExists(int studentId, int classroomId)
     {
-        throw new NotImplementedException();
+        var result = context.Set<Dictionary<string, object>>("aluno_turma")
+            .FirstOrDefault(sc =>
+                (int)sc["aluno_id"] == studentId &&
+                (int)sc["class_id"] == classroomId);
+          
+
+        return result is not null;
     }
 
-   
+    public bool AssociationExists(Student student, Classroom classroom)
+        => context.Set<Dictionary<string, object>>("aluno_turma")
+             .FirstOrDefault(sc =>
+                 (int)sc["aluno_id"] == student.Id &&
+                 (int)sc["class_id"] == classroom.Id)
+                is not null;
 }

@@ -9,7 +9,7 @@ public class ClassroomHandler(IClassroomRepository repository) : IClassroomHandl
 {
     public async Task<Response<Classroom?>> CreateAsync(CreateClassroomRequest request)
     {
-        var classroom = await repository.AnyAsync(request.Classroom);
+        var classroom = await repository.AnyAsync(request.CourseId);
         if(classroom is not null)
             return new Response<Classroom?>(null, 400, "Turma já cadastrada!");
 

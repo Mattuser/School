@@ -39,7 +39,7 @@ public static class BuilderExtension
         builder.Services.AddTransient<IClassroomRepository, ClassroomRepository>();
 
         builder.Services.AddTransient<IStudentClassroomHandler, StudentClassroomHandler>();
-        builder.Services.AddTransient<IStudentClassroomRepository, StudentClassroomRepository>();
+        builder.Services.AddScoped<IStudentClassroomRepository, StudentClassroomRepository>();
     }
 
     public static void AddCrossOrigin(this WebApplicationBuilder builder)

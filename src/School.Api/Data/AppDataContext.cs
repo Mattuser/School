@@ -1,6 +1,7 @@
 ﻿using School.Api.Data.Mappings;
 using School.Api.Entities;
 using Microsoft.EntityFrameworkCore;
+using School.Api.Endpoints.StudentClassroom;
 
 namespace School.Api.Data;
 

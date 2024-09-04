@@ -6,5 +6,5 @@ public interface IStudentRepository
 {
     public Task CreateAsync(Student student);
     public Task UpdateAsync(Student student);
-    public Task<Student?> AnyAsync(string user);
+    public Task<Student?> AnyAsync(int id);
 }

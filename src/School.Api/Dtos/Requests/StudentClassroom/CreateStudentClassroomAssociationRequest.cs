@@ -2,6 +2,6 @@
 
 public class CreateStudentClassroomAssociationRequest : Request
 {
-    public string StudentUser { get; set; } = string.Empty;
-    public string Classroom { get; set; } = string.Empty;
+    public int StudentId { get; set; } 
+    public int ClassroomId { get; set; } 
 }
