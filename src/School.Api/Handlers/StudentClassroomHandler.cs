@@ -29,8 +29,8 @@ public class StudentClassroomHandler(
 
         var studentClassroom = new StudentClasroom()
         {
-            StudentId = request.StudentId,
-            ClassId = request.ClassroomId,
+            StudentId = (int)result["aluno_id"],
+            ClassId = (int)result["class_id"],
         };
         return new Response<StudentClasroom>(studentClassroom, 201, "Associação feita com sucesso!");
     }

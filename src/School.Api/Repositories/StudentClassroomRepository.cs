@@ -12,24 +12,24 @@ public class StudentClassroomRepository(
 {
     public async Task<Dictionary<string, object>> AssociateAsync(int studentId, int classroomId)
     {
-        var student = await studentRepository.AnyAsync(studentId);
-        var classroomEntity = await classroomRepository.AnyAsync(classroomId);
         var studentClassroom = new Dictionary<string, object>
         {
-            {"aluno_id", student.Id},
-            {"class_id", classroomEntity.Id}
+            {"aluno_id", studentId},
+            {"class_id", classroomId}
         };
 
        context.Set<Dictionary<string, object>>("aluno_turma").Add(studentClassroom);
         
-        var addedUserRole = context.Set<Dictionary<string, object>>("aluno_turma")
-                                   .FirstOrDefault(sc =>
-                                       (int)sc["aluno_id"] == student.Id &&
-                                       (int)sc["class_id"] == classroomEntity.Id);
-
+      
         await context.SaveChangesAsync();
 
-        return addedUserRole;
+        var addedStudentClassroom = context.Set<Dictionary<string, object>>("aluno_turma")
+                                 .FirstOrDefault(sc =>
+                                     (int)sc["aluno_id"] == studentId &&
+                                     (int)sc["class_id"] == classroomId);
+
+
+        return addedStudentClassroom;
     }
 
     public bool AssociationExists(int studentId, int classroomId)
