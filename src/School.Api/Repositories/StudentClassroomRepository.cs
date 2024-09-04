@@ -44,9 +44,13 @@ public class StudentClassroomRepository(
     }
 
     public bool AssociationExists(Student student, Classroom classroom)
-        => context.Set<Dictionary<string, object>>("aluno_turma")
-             .FirstOrDefault(sc =>
-                 (int)sc["aluno_id"] == student.Id &&
-                 (int)sc["class_id"] == classroom.Id)
-                is not null;
+    {
+        var result = context.Set<Dictionary<string, object>>("aluno_turma")
+              .FirstOrDefault(sc =>
+                  (int)sc["aluno_id"] == student.Id &&
+                  (int)sc["class_id"] == classroom.Id);
+                
+
+        return result is not null;
+    }
 }
