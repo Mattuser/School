@@ -21,7 +21,7 @@ public class StudentClassroomHandler(
         if (!studentAndClassroomExists)
             return new Response<StudentClasroom>(null, 400, "Aluno ou turma não cadastrado!");
 
-        bool hasAsssociation = AssociationExistsAsync(student!, classroom!);
+        bool hasAsssociation = await AssociationExistsAsync(student!, classroom!);
         if (hasAsssociation is true)
             return new Response<StudentClasroom>(null, 400, "Aluno já está cadastrado na turma");
 
@@ -35,10 +35,10 @@ public class StudentClassroomHandler(
         return new Response<StudentClasroom>(studentClassroom, 201, "Associação feita com sucesso!");
     }
 
-    public bool AssociationExistsAsync(int studentUser, int classroom)
-        =>  repository.AssociationExists(studentUser, classroom);
+    public async Task<bool> AssociationExistsAsync(int studentUser, int classroom)
+        =>  await repository.AssociationExistsAsync(studentUser, classroom);
     
-    public bool AssociationExistsAsync(Student student, Classroom classroom)
-        =>  repository.AssociationExists(student, classroom);
+    public async Task<bool> AssociationExistsAsync(Student student, Classroom classroom)
+        =>  await repository.AssociationExistsAsync(student, classroom);
 
 }
