@@ -25,18 +25,11 @@ public class StudentClassroomRepository(AppDataContext context) : IStudentClassr
     }
 
     public bool AssociationExists(int studentId, int classroomId)
-    {
-        var result = Any(studentId, classroomId);;
+        => Any(studentId, classroomId) is not null;
 
-        return result is not null;
-    }
 
     public bool AssociationExists(Student student, Classroom classroom)
-    {
-        var result = Any(student.Id, classroom.Id);
-
-        return result is not null;
-    }
+        => Any(student.Id, classroom.Id) is not null;
 
     public async Task<bool> AssociationExistsAsync(Student student, Classroom classroom)
         => await AnyAsync(student.Id, classroom.Id) is not null;
@@ -44,23 +37,23 @@ public class StudentClassroomRepository(AppDataContext context) : IStudentClassr
     public async Task<bool> AssociationExistsAsync(int studentId, int classroomId)
     => await AnyAsync(studentId, classroomId) is not null;
 
+
     public Dictionary<string, object>? Any(int studentId, int classroomId)
-     => context.Set<Dictionary<string, object>>("aluno_turma")
-         .FirstOrDefault(sc =>
-             (int)sc["aluno_id"] == studentId &&
-             (int)sc["class_id"] == classroomId);
+     => AnyByEntities(studentId, classroomId)
+           .FirstOrDefault();
 
     public Task<Dictionary<string, object>?> AnyAsync(int studentId, int classroomId)
-        => context.Set<Dictionary<string, object>>("aluno_turma")
-         .FirstOrDefaultAsync(sc =>
-             (int)sc["aluno_id"] == studentId &&
-             (int)sc["class_id"] == classroomId);
+        => AnyByEntities(studentId, classroomId)
+           .FirstOrDefaultAsync();
 
     public Task<Dictionary<string, object>?> AnyAsync(Student student, Classroom classroom)
-        => context.Set<Dictionary<string, object>>("aluno_turma")
-         .FirstOrDefaultAsync(sc =>
-             (int)sc["aluno_id"] == student.Id &&
-             (int)sc["class_id"] == classroom.Id);
+        => AnyByEntities(student.Id, classroom.Id)
+           .FirstOrDefaultAsync();
 
+    private IQueryable<Dictionary<string, object>> AnyByEntities(int studentId, int classroomId)
+        => context.Set<Dictionary<string, object>>("aluno_turma")
+            .Where(sc =>
+             (int)sc["aluno_id"] == studentId &&
+             (int)sc["class_id"] == classroomId);
     
 }
