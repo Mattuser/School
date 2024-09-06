@@ -2,7 +2,6 @@
 using School.Api.Dtos.Requests.StudentClassroom;
 using School.Api.Dtos.Responses;
 using School.Api.Entities;
-using School.Api.Models;
 
 namespace School.Api.Handlers;
 
@@ -16,6 +15,25 @@ public class StudentClassroomHandler(
     {
         var student = await studentRepository.AnyAsync(request.StudentId);
         var classroom = await classroomRepository.AnyAsync(request.ClassroomId);
+
+        var verifyAssociation = await VerifyAssociation(student, classroom);
+        if (verifyAssociation is not null)
+            return verifyAssociation;
+
+         var result = await repository.AssociateAsync(request.StudentId, request.ClassroomId)!;
+
+        var studentClassroom = new StudentClasroom()
+        {
+            StudentId = (int)result["aluno_id"],
+            ClassId = (int)result["class_id"],
+        };
+        return new Response<StudentClasroom>(studentClassroom, 201, "Associação feita com sucesso!");
+    }
+
+    private async Task<Response<StudentClasroom>?> VerifyAssociation(
+        Student? student, 
+        Classroom? classroom)
+    {
         var studentAndClassroomExists = student is not null || classroom is not null;
 
         if (!studentAndClassroomExists)
@@ -25,14 +43,8 @@ public class StudentClassroomHandler(
         if (hasAsssociation is true)
             return new Response<StudentClasroom>(null, 400, "Aluno já está cadastrado na turma");
 
-        var result = await repository.AssociateAsync(request.StudentId, request.ClassroomId);
-
-        var studentClassroom = new StudentClasroom()
-        {
-            StudentId = (int)result["aluno_id"],
-            ClassId = (int)result["class_id"],
-        };
-        return new Response<StudentClasroom>(studentClassroom, 201, "Associação feita com sucesso!");
+        return null;
+       
     }
 
     public async Task<bool> AssociationExistsAsync(int studentUser, int classroom)
