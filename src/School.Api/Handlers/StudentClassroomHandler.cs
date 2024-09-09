@@ -10,7 +10,7 @@ public class StudentClassroomHandler(
     IStudentRepository studentRepository,
     IClassroomRepository classroomRepository) : IStudentClassroomHandler
 {
-    public async Task<Response<StudentClasroom>> AssociateAsync(
+    public async Task<Response<StudentClassroom>> AssociateAsync(
         CreateStudentClassroomAssociationRequest request)
     {
         var student = await studentRepository.AnyAsync(request.StudentId);
@@ -22,26 +22,26 @@ public class StudentClassroomHandler(
 
          var result = await repository.AssociateAsync(request.StudentId, request.ClassroomId)!;
 
-        var studentClassroom = new StudentClasroom()
+        var studentClassroom = new StudentClassroom()
         {
             StudentId = (int)result["aluno_id"],
             ClassId = (int)result["class_id"],
         };
-        return new Response<StudentClasroom>(studentClassroom, 201, "Associação feita com sucesso!");
+        return new Response<StudentClassroom>(studentClassroom, 201, "Associação feita com sucesso!");
     }
 
-    private async Task<Response<StudentClasroom>?> VerifyAssociation(
+    private async Task<Response<StudentClassroom>?> VerifyAssociation(
         Student? student, 
         Classroom? classroom)
     {
         var studentAndClassroomExists = student is not null || classroom is not null;
 
         if (!studentAndClassroomExists)
-            return new Response<StudentClasroom>(null, 400, "Aluno ou turma não cadastrado!");
+            return new Response<StudentClassroom>(null, 400, "Aluno ou turma não cadastrado!");
 
         bool hasAsssociation = await AssociationExistsAsync(student!, classroom!);
         if (hasAsssociation is true)
-            return new Response<StudentClasroom>(null, 400, "Aluno já está cadastrado na turma");
+            return new Response<StudentClassroom>(null, 400, "Aluno já está cadastrado na turma");
 
         return null;
        

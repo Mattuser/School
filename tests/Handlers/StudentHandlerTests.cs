@@ -28,7 +28,7 @@ public class StudentHandlerTests
 
         foreach(var request in requests)
         {
-            _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.User))
+            _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.Id))
                 .ReturnsAsync(existingStudent);
         }
 
@@ -51,7 +51,7 @@ public class StudentHandlerTests
 
         foreach (var request in requests)
         {
-            _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.User))
+            _studentRepositoryMock.Setup(repo => repo.AnyAsync(request.Id))
                .ReturnsAsync(default(Student));
         }
 
@@ -70,7 +70,7 @@ public class StudentHandlerTests
     public async Task UpdateAsync_Should_ReturnAlunoNaoCadastrado_When_StudentNotExists()
     {
         //Arrange
-        var student = new UpdateStudentRequest{ User = "student_user", Name = "student" };
+        var student = new UpdateStudentRequest{ Name = "student_user" };
 
         //Act
         var result = await _studentHandler.UpdateAsync(student);

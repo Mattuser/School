@@ -7,5 +7,5 @@ namespace School.Api.Abstractions;
 public interface IStudentClassroomHandler
 {
     Task<bool> AssociationExistsAsync(int studentUser, int classroom);
-    Task<Response<StudentClasroom>> AssociateAsync(CreateStudentClassroomAssociationRequest request);
+    Task<Response<StudentClassroom>> AssociateAsync(CreateStudentClassroomAssociationRequest request);
 }

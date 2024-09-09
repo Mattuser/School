@@ -21,7 +21,7 @@ public class ClassroomHandlerTests
         // Arrange
         var existingClassroom = new Classroom();
         var createClassroomRequest = new CreateClassroomRequest {  Classroom = "turma_1" };
-         _classroomRepositoryMock.Setup(r => r.AnyAsync(createClassroomRequest.Classroom))
+         _classroomRepositoryMock.Setup(r => r.AnyAsync(1))
             .ReturnsAsync(existingClassroom);
 
         // Act
@@ -37,7 +37,7 @@ public class ClassroomHandlerTests
     {
         // Arrange
         var createClassroomRequest = new CreateClassroomRequest() { Classroom = "turma1"};
-        _classroomRepositoryMock.Setup(r => r.AnyAsync("turma_01"))
+        _classroomRepositoryMock.Setup(r => r.AnyAsync(1))
            .ReturnsAsync(default(Classroom));
 
         // Act
